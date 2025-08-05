@@ -1,10 +1,12 @@
+console.log("Property page script loaded");
+
 
 <!-- ✅ Finsweet CMS -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cms@1/cms.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cms@1/cms.js">
 
 
 <!--Gallery Script and CSS -->
-<script>
+
 // Master Script Setup
 window.Webflow ||= [];
 window.Webflow.push(() => {
@@ -182,7 +184,7 @@ function handleInitialURL(urls) {
     if (index >= 0) openCarousel(urls, index);
   }
 }
-</script>
+
 
 
 <!--Final Gallery CSS Fixes -->
@@ -372,7 +374,7 @@ function handleInitialURL(urls) {
 </style>
 
 
-<script>
+
 // ✅ Highlight Modal Logic with URL hash sync & auto-open
 function initHighlightModal() {
   const modal = document.querySelector('.highlight-modal');
@@ -584,7 +586,7 @@ modal.addEventListener('click', e => {
     if (section) section.style.display = 'none';
   }
 }
-</script>
+
 
 <!--Style -->
 <style>
@@ -670,7 +672,7 @@ modal.addEventListener('click', e => {
 
 
 
-<script>
+
 
   // Qty Selector
   function initQtySelector() {
@@ -762,11 +764,11 @@ modal.addEventListener('click', e => {
       }
     }
   }
-</script>
+
 
   // ✅ Currency value switcher
 
-<script>
+
   window.Webflow ||= [];
   window.Webflow.push(() => {
     // Handle currency dropdown click
@@ -830,10 +832,10 @@ modal.addEventListener('click', e => {
     const symbol = currencySymbols[currency] || '';
     return `${symbol}${Math.round(value)}`;
   }
-</script>
 
 
-<script>
+
+
   document.addEventListener('DOMContentLoaded', () => {
     const badges = document.querySelectorAll('.review-badge');
     const reviewSection = document.querySelector('.review-section');
@@ -879,14 +881,14 @@ modal.addEventListener('click', e => {
       reviewSection.style.display = 'none';
     }
   });
-</script>
+
 
 
 
 
 <!-- ✅ Moment Videos  -->
 
-<script>
+
 (function() {
   const momentVideos = document.querySelectorAll('.preview-video');
   const momentModal = document.querySelector('.moment-modal');
@@ -1019,7 +1021,7 @@ modal.addEventListener('click', e => {
     video.style.cursor = 'pointer';
   });
 })();
-</script>
+
 
 <style>
 .moment-modal {
@@ -1125,7 +1127,7 @@ modal.addEventListener('click', e => {
 
 <!--Filter For Host Section - show only linked host  -->
 
-<script>
+
   document.addEventListener("DOMContentLoaded", function () {
     const currentHostId = document.getElementById("current-host-id")?.textContent?.trim();
     const userCards = document.querySelectorAll('[data-clerk-id]');
@@ -1137,11 +1139,11 @@ modal.addEventListener('click', e => {
       }
     });
   });
-</script>
+
 
 <!--Host Joined Date  -->
 
-<script>
+
   document.addEventListener("DOMContentLoaded", function () {
     const joinedEls = document.querySelectorAll(".host-joined-date");
 
@@ -1154,12 +1156,12 @@ modal.addEventListener('click', e => {
       }
     });
   });
-</script>
+
 
 
 <!--Host Average Reviews and Count  -->
 
-<script>
+
   document.addEventListener("DOMContentLoaded", function () {
     function updateReviewText() {
       const summaryEls = document.querySelectorAll(".host-review-summary");
@@ -1181,11 +1183,11 @@ modal.addEventListener('click', e => {
 
     setTimeout(updateReviewText, 300); 
   });
-</script>
+
 
 <!-- ✅ Amenities Section -->
 
-<script>
+
   document.addEventListener("DOMContentLoaded", function () {
     const toggleButton = document.querySelector('.view-full-list-button');
     const amenitiesGrid = document.querySelector('.amenities-grid');
@@ -1198,7 +1200,7 @@ modal.addEventListener('click', e => {
         : "View the full list";
     });
   });
-</script>
+
 
 
 <style>
@@ -1356,7 +1358,7 @@ modal.addEventListener('click', e => {
   
 </style>
 
-<script>
+
   window.initCalendarOverrides = function () {
     const overrideEls = document.querySelectorAll(".calendar-override");
     const overrides = [];
@@ -1395,9 +1397,9 @@ modal.addEventListener('click', e => {
       return isWithinRange && (roomMatches || propertyMatches);
     });
   };
-</script>
 
-<script>
+
+
   function initCustomCalendar() {
     const container = document.getElementById("calendar-container");
     const modal = document.querySelector("[data-calendar-modal]");
@@ -1587,9 +1589,9 @@ daysOfWeek.forEach((day) => {
     if (typeof initCalendarOverrides === "function") initCalendarOverrides();
     initCustomCalendar();
   });
-</script>
 
-<script>
+
+
 
 
 //PRICE CALENDAR LOGIC
@@ -1656,7 +1658,7 @@ function initPriceCalendar() {
 document.addEventListener('DOMContentLoaded', () => {
   initPriceCalendar();
 });
-</script>
+
 
 <style>
 .date-price {
@@ -1671,7 +1673,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </style>
 
 
-<script>
+
 
 //SELECTED DATE INIT LOGIC
 
@@ -1711,5 +1713,5 @@ function initSelectedDatesFromURLOrStorage() {
 }
 
 document.addEventListener('DOMContentLoaded', initSelectedDatesFromURLOrStorage);
-</script>
+
 
