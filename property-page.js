@@ -1,14 +1,6 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
-
 console.log('✅ property-page.js is running');
-
-
-
-<!-- ✅ Finsweet CMS -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cms@1/cms.js">
-
 
 <!--Gallery Script and CSS -->
 
