@@ -1,3 +1,7 @@
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
 console.log("Property page script loaded");
 
 
@@ -1170,4 +1174,4 @@ function initSelectedDatesFromURLOrStorage() {
 
 document.addEventListener('DOMContentLoaded', initSelectedDatesFromURLOrStorage);
 
-
+});
