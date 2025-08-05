@@ -1,6 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
+console.log('property-page.js loaded');
 
-console.log('✅ property-page.js is running');
+document.addEventListener("DOMContentLoaded", function () {
 
 <!--Gallery Script and CSS -->
 
