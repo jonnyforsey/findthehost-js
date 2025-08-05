@@ -2,7 +2,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
 
-console.log("Property page script loaded");
+console.log('✅ property-page.js is running');
+
 
 
 <!-- ✅ Finsweet CMS -->
