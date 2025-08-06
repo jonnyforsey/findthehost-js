@@ -193,16 +193,18 @@ function initHighlightModal() {
   let mediaItems = [];
   let isMuted = true;
   let scrollPosition = 0;
-  // Ensure modal is hidden by default, overriding inline styles if necessary
-modal.style.display = 'none';
 
+  if (!modal || !content) return;
 
-  const propertyUrl = 'https://www.findthehost.com/stay/united-kingdom-falmouth-thetis-place'; // Main property URL
+  // Ensure modal is hidden by default
+  modal.style.display = 'none';
+  modal.classList.remove('active');
+
+  const propertyUrl = 'https://www.findthehost.com/stay/united-kingdom-falmouth-thetis-place';
 
   const bubbles = document.querySelectorAll('.highlight-bubble');
-  if (!bubbles.length || !modal || !content) return;
+  if (!bubbles.length) return;
 
-  // Helper to open modal for a given slug and find matching media
   function openHighlightBySlug(slug) {
     let matchedBubble = null;
     bubbles.forEach(bubble => {
@@ -229,7 +231,6 @@ modal.style.display = 'none';
       content.parentNode.insertBefore(progressWrapper, content);
     }
 
-    modal.style.display = 'flex';
     modal.classList.add('active');
 
     function show() {
@@ -238,7 +239,6 @@ modal.style.display = 'none';
       const item = mediaItems[currentIndex];
       if (!item) return;
 
-      // Update URL hash with highlight slug
       if (item.slug) {
         history.replaceState(null, '', `${propertyUrl}#highlight=${item.slug}`);
       }
@@ -342,32 +342,26 @@ modal.style.display = 'none';
       }
     };
 
-function closeModal() {
-  modal.style.display = 'none';
-  modal.classList.remove('active'); // <- This line is the key fix
-  content.innerHTML = '';
-  const progressWrapper = document.querySelector('.highlight-progress-bar-wrapper');
-  if (progressWrapper) progressWrapper.innerHTML = '';
-  document.body.classList.remove('modal-open');
-  document.body.style.top = '';
-  window.scrollTo(0, scrollPosition);
-  history.replaceState(null, '', propertyUrl);
-}
+    function closeModal() {
+      modal.classList.remove('active');
+      content.innerHTML = '';
+      const progressWrapper = document.querySelector('.highlight-progress-bar-wrapper');
+      if (progressWrapper) progressWrapper.innerHTML = '';
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPosition);
+      history.replaceState(null, '', propertyUrl);
+    }
 
+    closeBtn.onclick = closeModal;
 
-closeBtn.onclick = closeModal;
-
-modal.addEventListener('click', e => {
-  if (e.target === modal) {
-    closeModal();
-  }
-});
-
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
+    });
 
     show();
   }
 
-  // On bubble click - open modal and update URL hash
   bubbles.forEach(bubble => {
     bubble.addEventListener('click', () => {
       const id = bubble.dataset.highlightId;
@@ -375,8 +369,6 @@ modal.addEventListener('click', e => {
     });
   });
 
-
-  // On page load: check if URL hash contains highlight slug and auto open modal
   const hash = window.location.hash;
   const hashMatch = hash.match(/highlight=([^&]+)/);
   if (hashMatch) {
@@ -384,7 +376,6 @@ modal.addEventListener('click', e => {
     setTimeout(() => openHighlightBySlug(slug), 500);
   }
 
-  // Hide highlight section if no media
   const highlightGroups = document.querySelectorAll('.highlight-group');
   let hasMedia = false;
   highlightGroups.forEach(group => {
@@ -396,6 +387,7 @@ modal.addEventListener('click', e => {
     if (section) section.style.display = 'none';
   }
 }
+
 
 
 
