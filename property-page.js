@@ -1,9 +1,5 @@
 console.log('✅ JS script is now loaded from GitHub');
 
-const h1 = document.querySelector('h1');
-if (h1) h1.style.color = 'red'; // Just as a visual test
-
-
 document.addEventListener("DOMContentLoaded", function () {
 
 <!--Gallery Script and CSS -->
