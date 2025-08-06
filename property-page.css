@@ -189,8 +189,8 @@ Github
 //highlight modal styling
 
   .highlight-modal {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-    display: none; align-items: center; justify-content: center;
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    align-items: center; justify-content: center;
     z-index: 9999;
   }
   .highlight-modal.active {
