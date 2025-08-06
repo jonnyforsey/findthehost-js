@@ -1,5 +1,3 @@
-console.log('✅ JS script is now loaded from GitHub');
-
 document.addEventListener("DOMContentLoaded", function () {
 
 // Gallery Script
