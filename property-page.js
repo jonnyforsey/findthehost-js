@@ -2,7 +2,7 @@ console.log('✅ JS script is now loaded from GitHub');
 
 document.addEventListener("DOMContentLoaded", function () {
 
-<!--Gallery Script and CSS -->
+// Gallery Script
 
 // Master Script Setup
 window.Webflow ||= [];
@@ -608,7 +608,8 @@ modal.addEventListener('click', e => {
 
 
 
-<!-- ✅ Moment Videos  -->
+// Moment Videos
+
 
 
 (function() {
@@ -747,7 +748,7 @@ modal.addEventListener('click', e => {
 
 
 
-<!--Filter For Host Section - show only linked host  -->
+//Filter For Host Section - show only linked host
 
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -763,7 +764,7 @@ modal.addEventListener('click', e => {
   });
 
 
-<!--Host Joined Date  -->
+//Host Joined Date
 
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -781,7 +782,7 @@ modal.addEventListener('click', e => {
 
 
 
-<!--Host Average Reviews and Count  -->
+//Host Average Reviews and Count
 
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -807,7 +808,7 @@ modal.addEventListener('click', e => {
   });
 
 
-<!-- ✅ Amenities Section -->
+//Amenities Section
 
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -1086,7 +1087,7 @@ function initPriceCalendar() {
       const basePrice = basePrices[isoDate];
       const matchingOverrides = overrides.filter(o => o.date === isoDate);
 
-      // --- Handle Base Price
+      // Handle Base Price
       if (basePrice && !matchingOverrides.some(o => o.overridePrice != null)) {
         const priceEl = document.createElement('div');
         priceEl.className = 'date-price';
