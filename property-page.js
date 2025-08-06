@@ -819,7 +819,6 @@ function initHighlightModal() {
     });
   });
 
-<script>
 
 // --------------------- Calendar Modal --------------------- //
 
