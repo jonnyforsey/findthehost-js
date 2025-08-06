@@ -152,7 +152,7 @@ function closeAllModals() {
   document.querySelectorAll('[data-close-carousel]').forEach(el =>
     el.addEventListener('click', closeAllModals)
   );
-});
+
 
 //Handle back/forward button behavior
 window.addEventListener("popstate", (event) => {
