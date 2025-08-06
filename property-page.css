@@ -186,86 +186,147 @@ Github
 
 
 
-//highlight modal styling
+/* Highlight Modal Styling */
+.highlight-modal {
+  display: none !important;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
 
-  .highlight-modal {
-    display: none !important; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-    align-items: center; justify-content: center;
-    z-index: 9999;
-  }
-  .highlight-modal.active {
-    display: flex !important;
-  }
-  .highlight-modal-content-wrapper {
-    position: relative;
-    width: 100%; max-width: 420px; aspect-ratio: 9/16;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .highlight-modal-content {
-    width: 100%; height: 100%;
-    position: relative; overflow: hidden;
-  }
-  .highlight-modal-content img,
-  .highlight-modal-content video {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-  }
-  .highlight-arrow,
-  .highlight-close,
-  .highlight-progress-bar-wrapper {
-    position: absolute; z-index: 10;
-  }
-  .highlight-arrow {
-    font-size: 28px; color: #fff;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%; width: 40px; height: 40px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  .highlight-arrow:hover {
-    background: rgba(255,255,255,0.3);
-  }
-  .left-arrow { left: 12px; top: 50%; transform: translateY(-50%); }
-  .right-arrow { right: 12px; top: 50%; transform: translateY(-50%); }
-  .highlight-close {
-    top: 42px; right: 12px;
-    font-size: 32px; color: #fff;
-    cursor: pointer;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%; width: 40px; height: 40px;
-    text-align: center; line-height: 40px;
-  }
-  .highlight-close:hover {
-    background: rgba(255,255,255,0.4);
-  }
-  .highlight-progress-bar-wrapper {
-    top: 12px; left: 12px; right: 12px;
-    display: flex; gap: 6px;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .highlight-progress-segment {
-    flex-grow: 1;
-    height: 6px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 6px;
-    transition: background 0.3s ease;
-  }
-  .highlight-progress-segment.active {
-    background: white;
-  }
-  .volume-toggle {
-    position: absolute; bottom: 12px; right: 12px;
-    background: rgba(255,255,255,0);
-    border-radius: 50%; padding: 8px;
-    cursor: pointer; z-index: 11;
-    display: flex; align-items: center; justify-content: center;
-  }
-  body.modal-open {
-    overflow: hidden; position: fixed; width: 100%;
-  }
+.highlight-modal.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.highlight-modal-content-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-modal-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-modal-content img,
+.highlight-modal-content video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.highlight-arrow,
+.highlight-close,
+.highlight-progress-bar-wrapper {
+  position: absolute;
+  z-index: 10;
+}
+
+.highlight-arrow {
+  font-size: 28px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.highlight-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.left-arrow {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-arrow {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.highlight-close {
+  top: 42px;
+  right: 12px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
+.highlight-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.highlight-progress-bar-wrapper {
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.highlight-progress-segment {
+  flex-grow: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.highlight-progress-segment.active {
+  background: white;
+}
+
+.volume-toggle {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
 
 
 
