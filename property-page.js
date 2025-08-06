@@ -193,6 +193,9 @@ function initHighlightModal() {
   let mediaItems = [];
   let isMuted = true;
   let scrollPosition = 0;
+  // Ensure modal is hidden by default, overriding inline styles if necessary
+modal.style.display = 'none';
+
 
   const propertyUrl = 'https://www.findthehost.com/stay/united-kingdom-falmouth-thetis-place'; // Main property URL
 
