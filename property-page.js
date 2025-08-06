@@ -819,243 +819,246 @@ function initHighlightModal() {
     });
   });
 
+<script>
 
-  window.initCalendarOverrides = function () {
-    const overrideEls = document.querySelectorAll(".calendar-override");
-    const overrides = [];
+// --------------------- Calendar Modal --------------------- //
 
-    overrideEls.forEach((el) => {
-      const start = el.getAttribute("data-start");
-      const end = el.getAttribute("data-end");
-      const price = el.getAttribute("data-price");
-      const blocked = el.getAttribute("data-blocked") === "true";
-      const room = el.getAttribute("data-room");
-      const property = el.getAttribute("data-property");
+window.initCalendarOverrides = function () {
+  const overrideEls = document.querySelectorAll(".calendar-override");
+  const overrides = [];
 
-      overrides.push({
-        start: start ? new Date(start) : null,
-        end: end ? new Date(end) : null,
-        price: price ? parseFloat(price) : null,
-        blocked,
-        room,
-        property,
-      });
+  overrideEls.forEach((el) => {
+    const start = el.getAttribute("data-start");
+    const end = el.getAttribute("data-end");
+    const price = el.getAttribute("data-price");
+    const blocked = el.getAttribute("data-blocked") === "true";
+    const room = el.getAttribute("data-room");
+    const property = el.getAttribute("data-property");
+
+    overrides.push({
+      start: start ? new Date(start) : null,
+      end: end ? new Date(end) : null,
+      price: price ? parseFloat(price) : null,
+      blocked,
+      room,
+      property,
     });
-
-    window.calendarOverrides = overrides;
-  };
-
-  window.getCalendarOverrideForDate = function (date, activeRoomName, activePropertyName) {
-    if (!window.calendarOverrides) return null;
-
-    return window.calendarOverrides.find((override) => {
-      const isWithinRange =
-        override.start && override.end && date >= override.start && date <= override.end;
-
-      const roomMatches = override.room === activeRoomName;
-      const propertyMatches = override.property === activePropertyName;
-
-      return isWithinRange && (roomMatches || propertyMatches);
-    });
-  };
-
-
-
-  function initCustomCalendar() {
-    const container = document.getElementById("calendar-container");
-    const modal = document.querySelector("[data-calendar-modal]");
-    const openBtn = document.querySelector(".change-dates-button");
-    const selectedText = document.querySelector(".selected-dates-text");
-    const tooltip = document.getElementById("calendar-range-tooltip");
-
-    let start = null;
-    let end = null;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let currentDate = new Date(today.getFullYear(), today.getMonth());
-
-    const basePrice = parseInt(document.querySelector(".calendar-wrapper").getAttribute("data-base-price"));
-    const activeRoomName = document.querySelector(".calendar-wrapper").getAttribute("data-room");
-    const activePropertyName = document.querySelector(".calendar-wrapper").getAttribute("data-property");
-
-    openBtn.addEventListener("click", () => {
-      modal.style.display = "block";
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!modal.contains(e.target) && !openBtn.contains(e.target)) {
-        modal.style.display = "none";
-      }
-    });
-
-    modal.addEventListener("click", (e) => {
-      e.stopPropagation(); // prevent closing when clicking inside modal
-    });
-
-    function formatDate(date) {
-      return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
-    }
-
-    function renderCalendar(date) {
-      container.innerHTML = "";
-
-      const leftMonth = new Date(date.getFullYear(), date.getMonth());
-      const rightMonth = new Date(date.getFullYear(), date.getMonth() + 1);
-      const months = [leftMonth, rightMonth];
-
-      const monthWrapper = document.createElement("div");
-      monthWrapper.className = "calendar-months";
-
-      months.forEach((monthDate, index) => {
-        const monthDiv = document.createElement("div");
-        monthDiv.className = "calendar-month";
-
-        const nav = document.createElement("div");
-        nav.className = "calendar-nav-header";
-
-        if (index === 0) {
-          const prevBtn = document.createElement("button");
-          prevBtn.className = "calendar-nav";
-          prevBtn.innerHTML = "←";
-          prevBtn.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar(currentDate);
-          });
-          nav.appendChild(prevBtn);
-        } else {
-          nav.appendChild(document.createElement("span"));
-        }
-
-        const title = document.createElement("span");
-        title.textContent = monthDate.toLocaleDateString("en-GB", {
-          month: "long",
-          year: "numeric",
-        });
-        nav.appendChild(title);
-
-        if (index === 1) {
-          const nextBtn = document.createElement("button");
-          nextBtn.className = "calendar-nav";
-          nextBtn.innerHTML = "→";
-          nextBtn.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar(currentDate);
-          });
-          nav.appendChild(nextBtn);
-        } else {
-          nav.appendChild(document.createElement("span"));
-        }
-
-        const grid = document.createElement("div");
-        grid.className = "calendar-grid";
-        
-        const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-daysOfWeek.forEach((day) => {
-  const dayLabel = document.createElement("div");
-  dayLabel.className = "calendar-day-label";
-  dayLabel.textContent = day;
-  grid.appendChild(dayLabel);
-});
-
-
-        const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
-        const startDay = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1).getDay();
-        const offset = (startDay + 6) % 7;
-
-        for (let i = 0; i < offset; i++) {
-          const empty = document.createElement("div");
-          grid.appendChild(empty);
-        }
-
-        for (let day = 1; day <= daysInMonth; day++) {
-          const d = new Date(monthDate.getFullYear(), monthDate.getMonth(), day);
-          const dayEl = document.createElement("div");
-          dayEl.className = "calendar-day";
-          dayEl.textContent = day;
-
-          const override = window.getCalendarOverrideForDate(d, activeRoomName, activePropertyName);
-
-          const priceEl = document.createElement("div");
-          priceEl.className = "calendar-price";
-
-          if (override && override.blocked) {
-            dayEl.classList.add("disabled", "blocked");
-            priceEl.textContent = "-";
-            dayEl.appendChild(priceEl);
-            grid.appendChild(dayEl);
-            continue;
-          }
-
-          if (override && override.price != null) {
-            priceEl.textContent = `£${override.price}`;
-          } else {
-            priceEl.textContent = `£${basePrice}`;
-          }
-
-          dayEl.appendChild(priceEl);
-
-          if (d < today) {
-            dayEl.classList.add("disabled");
-          } else {
-            dayEl.addEventListener("click", () => {
-              if (!start || (start && end)) {
-                start = d;
-                end = null;
-              } else if (d > start) {
-                end = d;
-              } else if (d.getTime() === start.getTime()) {
-                return;
-              }
-
-              renderCalendar(currentDate);
-
-              if (start && end) {
-                const nights = Math.round((end - start) / (1000 * 60 * 60 * 24));
-                selectedText.textContent = `${formatDate(start)} - ${formatDate(end)}`;
-                tooltip.textContent = `${nights} night${nights > 1 ? "s" : ""}`;
-                tooltip.style.display = "block";
-              } else {
-                tooltip.style.display = "none";
-              }
-            });
-          }
-
-          if (start && d.getTime() === start.getTime()) {
-            dayEl.classList.add("selected");
-          }
-          if (start && end && d > start && d < end) {
-            dayEl.classList.add("in-range");
-          }
-          if (end && d.getTime() === end.getTime()) {
-            dayEl.classList.add("selected");
-          }
-
-          grid.appendChild(dayEl);
-        }
-
-        monthDiv.appendChild(nav);
-        monthDiv.appendChild(grid);
-        monthWrapper.appendChild(monthDiv);
-      });
-
-      container.appendChild(monthWrapper);
-    }
-
-    renderCalendar(currentDate);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    if (typeof initCalendarOverrides === "function") initCalendarOverrides();
-    initCustomCalendar();
   });
 
+  window.calendarOverrides = overrides;
+};
 
+window.getCalendarOverrideForDate = function (date, activeRoomName, activePropertyName) {
+  if (!window.calendarOverrides) return null;
 
+  return window.calendarOverrides.find((override) => {
+    const isWithinRange =
+      override.start && override.end && date >= override.start && date <= override.end;
 
+    const roomMatches = override.room === activeRoomName;
+    const propertyMatches = override.property === activePropertyName;
 
-//PRICE CALENDAR LOGIC
+    return isWithinRange && (roomMatches || propertyMatches);
+  });
+};
+
+function initCustomCalendar() {
+  const container = document.getElementById("calendar-container");
+  const modal = document.querySelector("[data-calendar-modal]");
+  const openBtn = document.querySelector(".change-dates-button");
+  const selectedText = document.querySelector(".selected-dates-text");
+  const tooltip = document.getElementById("calendar-range-tooltip");
+
+  let start = null;
+  let end = null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let currentDate = new Date(today.getFullYear(), today.getMonth());
+
+  const basePrice = parseInt(document.querySelector(".calendar-wrapper").getAttribute("data-base-price"));
+  const activeRoomName = document.querySelector(".calendar-wrapper").getAttribute("data-room");
+  const activePropertyName = document.querySelector(".calendar-wrapper").getAttribute("data-property");
+
+  // ✳️ Show modal + render calendar
+  openBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+    container.innerHTML = ""; // clear any old content
+    renderCalendar(currentDate);
+  });
+
+  // ✳️ Close modal on outside click
+  document.addEventListener("click", (e) => {
+    if (!modal.contains(e.target) && !openBtn.contains(e.target)) {
+      modal.style.display = "none";
+    }
+  });
+
+  // Prevent modal from closing when clicked inside
+  modal.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  function formatDate(date) {
+    return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+  }
+
+  function renderCalendar(date) {
+    container.innerHTML = "";
+
+    const leftMonth = new Date(date.getFullYear(), date.getMonth());
+    const rightMonth = new Date(date.getFullYear(), date.getMonth() + 1);
+    const months = [leftMonth, rightMonth];
+
+    const monthWrapper = document.createElement("div");
+    monthWrapper.className = "calendar-months";
+
+    months.forEach((monthDate, index) => {
+      const monthDiv = document.createElement("div");
+      monthDiv.className = "calendar-month";
+
+      const nav = document.createElement("div");
+      nav.className = "calendar-nav-header";
+
+      if (index === 0) {
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "calendar-nav";
+        prevBtn.innerHTML = "←";
+        prevBtn.addEventListener("click", () => {
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          renderCalendar(currentDate);
+        });
+        nav.appendChild(prevBtn);
+      } else {
+        nav.appendChild(document.createElement("span"));
+      }
+
+      const title = document.createElement("span");
+      title.textContent = monthDate.toLocaleDateString("en-GB", {
+        month: "long",
+        year: "numeric",
+      });
+      nav.appendChild(title);
+
+      if (index === 1) {
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "calendar-nav";
+        nextBtn.innerHTML = "→";
+        nextBtn.addEventListener("click", () => {
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          renderCalendar(currentDate);
+        });
+        nav.appendChild(nextBtn);
+      } else {
+        nav.appendChild(document.createElement("span"));
+      }
+
+      const grid = document.createElement("div");
+      grid.className = "calendar-grid";
+
+      const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      daysOfWeek.forEach((day) => {
+        const dayLabel = document.createElement("div");
+        dayLabel.className = "calendar-day-label";
+        dayLabel.textContent = day;
+        grid.appendChild(dayLabel);
+      });
+
+      const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+      const startDay = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1).getDay();
+      const offset = (startDay + 6) % 7;
+
+      for (let i = 0; i < offset; i++) {
+        const empty = document.createElement("div");
+        grid.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const d = new Date(monthDate.getFullYear(), monthDate.getMonth(), day);
+        const dayEl = document.createElement("div");
+        dayEl.className = "calendar-day";
+        dayEl.textContent = day;
+
+        const override = window.getCalendarOverrideForDate(d, activeRoomName, activePropertyName);
+
+        const priceEl = document.createElement("div");
+        priceEl.className = "calendar-price";
+
+        if (override && override.blocked) {
+          dayEl.classList.add("disabled", "blocked");
+          priceEl.textContent = "-";
+          dayEl.appendChild(priceEl);
+          grid.appendChild(dayEl);
+          continue;
+        }
+
+        if (override && override.price != null) {
+          priceEl.textContent = `£${override.price}`;
+        } else {
+          priceEl.textContent = `£${basePrice}`;
+        }
+
+        dayEl.appendChild(priceEl);
+
+        if (d < today) {
+          dayEl.classList.add("disabled");
+        } else {
+          dayEl.addEventListener("click", () => {
+            if (!start || (start && end)) {
+              start = d;
+              end = null;
+            } else if (d > start) {
+              end = d;
+            } else if (d.getTime() === start.getTime()) {
+              return;
+            }
+
+            renderCalendar(currentDate);
+
+            if (start && end) {
+              const nights = Math.round((end - start) / (1000 * 60 * 60 * 24));
+              selectedText.textContent = `${formatDate(start)} - ${formatDate(end)}`;
+              tooltip.textContent = `${nights} night${nights > 1 ? "s" : ""}`;
+              tooltip.style.display = "block";
+            } else {
+              tooltip.style.display = "none";
+            }
+          });
+        }
+
+        if (start && d.getTime() === start.getTime()) {
+          dayEl.classList.add("selected");
+        }
+        if (start && end && d > start && d < end) {
+          dayEl.classList.add("in-range");
+        }
+        if (end && d.getTime() === end.getTime()) {
+          dayEl.classList.add("selected");
+        }
+
+        grid.appendChild(dayEl);
+      }
+
+      monthDiv.appendChild(nav);
+      monthDiv.appendChild(grid);
+      monthWrapper.appendChild(monthDiv);
+    });
+
+    container.appendChild(monthWrapper);
+  }
+}
+
+// --------------------- Init Calls --------------------- //
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof initCalendarOverrides === "function") initCalendarOverrides();
+  initCustomCalendar();
+  initPriceCalendar();
+  initSelectedDatesFromURLOrStorage();
+});
+
+// --------------------- Price Calendar Logic --------------------- //
 
 function initPriceCalendar() {
   const calendar = document.querySelector('.custom-calendar');
@@ -1082,7 +1085,6 @@ function initPriceCalendar() {
       const basePrice = basePrices[isoDate];
       const matchingOverrides = overrides.filter(o => o.date === isoDate);
 
-      // Handle Base Price
       if (basePrice && !matchingOverrides.some(o => o.overridePrice != null)) {
         const priceEl = document.createElement('div');
         priceEl.className = 'date-price';
@@ -1090,7 +1092,6 @@ function initPriceCalendar() {
         dateEl.appendChild(priceEl);
       }
 
-      //Apply Overrides
       matchingOverrides.forEach(override => {
         if (override.overridePrice != null) {
           const overridePriceEl = document.createElement('div');
@@ -1099,7 +1100,6 @@ function initPriceCalendar() {
           dateEl.appendChild(overridePriceEl);
         }
 
-        // If date is blocked or availability = 0, hide matching rooms
         if (override.blocked || override.availability === 0) {
           rooms.forEach(roomEl => {
             const roomSlug = roomEl.getAttribute('data-room');
@@ -1116,14 +1116,7 @@ function initPriceCalendar() {
   updateCalendarUI();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initPriceCalendar();
-});
-
-
-
-
-//SELECTED DATE INIT LOGIC
+// --------------------- Selected Date Init Logic --------------------- //
 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -1159,7 +1152,3 @@ function initSelectedDatesFromURLOrStorage() {
 
   updateSelectedDatesUI(checkin, checkout);
 }
-
-document.addEventListener('DOMContentLoaded', initSelectedDatesFromURLOrStorage);
-
-});
