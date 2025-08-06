@@ -1,3 +1,6 @@
+console.log("[findthehost.js] Script loaded");
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
 // Gallery Script
