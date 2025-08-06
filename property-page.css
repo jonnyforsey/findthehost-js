@@ -1,6 +1,7 @@
 Github
 
-//Final Gallery CSS Fixes
+/* Final Gallery CSS Fixes */
+
 
 /* Push nav-wrapper behind backdrop */
 .nav-wrapper {
@@ -459,7 +460,7 @@ body.modal-open {
   white-space: nowrap;
 }
 
-//Calendar Modal
+/* Calendar Modal */
 
   .calendar-modal {
     position: absolute;
