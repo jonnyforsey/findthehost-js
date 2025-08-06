@@ -146,7 +146,6 @@ function closeAllModals() {
 }
 
 //Modal close buttons
-document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('[data-close-gallery]').forEach(el =>
     el.addEventListener('click', closeAllModals)
   );
