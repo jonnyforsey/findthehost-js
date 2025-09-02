@@ -1155,5 +1155,5 @@ function initSelectedDatesFromURLOrStorage() {
 
   updateSelectedDatesUI(checkin, checkout);
 }
-}); // <-- closes the DOMContentLoaded wrapper
-}); // <-- closes the very first addEventListener
+}); // closes the DOMContentLoaded wrapper
+
